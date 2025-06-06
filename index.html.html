@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2Birds One Stone - Servicios 3D</title>
+    <meta name="description" content="Clases particulares, asesoría 3D, atajos de teclado y colaboración profesional">
+    <meta name="keywords" content="3D, clases particulares, asesoría, Blender, diseño">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎯</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .main-title {
+            font-size: clamp(2rem, 8vw, 4rem);
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ffffff, #a0a0a0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: clamp(1.2rem, 4vw, 2rem);
+            font-weight: 400;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #b0b0b0;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(74, 144, 226, 0.5);
+            box-shadow: 0 20px 40px rgba(74, 144, 226, 0.1);
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #4a90e2, #7b68ee);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(45deg, #4a90e2, #7b68ee);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .service-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #ffffff;
+        }
+
+        .service-description {
+            font-size: 0.9rem;
+            color: #b0b0b0;
+            line-height: 1.5;
+        }
+
+        .service-shortcut {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            color: #ffffff;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+        }
+
+        .additional-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            text-decoration: none;
+            color: #b0b0b0;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .link-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .link-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 0.8rem;
+            background: #4a90e2;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .social-section {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .social-title {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: #b0b0b0;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50px;
+            text-decoration: none;
+            color: #ffffff;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .social-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .keyboard-hint {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            font-size: 0.8rem;
+            color: #666;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .footer-text {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-text p {
+            font-size: 0.85rem;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .decorative-element {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(74, 144, 226, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            top: 10%;
+            right: -5%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .decorative-element:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(123, 104, 238, 0.1) 0%, transparent 70%);
+            top: 60%;
+            left: -5%;
+            animation-delay: -3s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .keyboard-hint {
+                display: none;
+            }
+        }
+
+        /* Mejoras para GitHub Pages */
+        .github-corner {
+            position: fixed;
+            top: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .github-corner svg {
+            fill: #4a90e2;
+            color: #fff;
+            width: 80px;
+            height: 80px;
+        }
+
+        .github-corner:hover .octo-arm {
+            animation: octocat-wave 560ms ease-in-out;
+        }
+
+        @keyframes octocat-wave {
+            0%, 20%, 60%, 100% { transform: rotate(0deg); }
+            40%, 80% { transform: rotate(-25deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="decorative-element"></div>
+    <div class="decorative-element"></div>
+    
+    <div class="container">
+        <h1 class="main-title">¡Hola! Bienvenido</h1>
+        <p class="subtitle">¿Qué servicio necesitas hoy?</p>
+        
+        <div class="services-grid">
+            <div class="service-card" onclick="handleServiceClick('generate')">
+                <div class="service-shortcut">⌘G</div>
+                <div class="service-icon">✨</div>
+                <h3 class="service-title">Clases Particulares</h3>
+                <p class="service-description">Img & Voice</p>
+            </div>
+            
+            <div class="service-card" onclick="handleServiceClick('training')">
+                <div class="service-shortcut">⌘C</div>
+                <div class="service-icon">🎯</div>
+                <h3 class="service-title">Asesoría 3D</h3>
+                <p class="service-description">3D Training</p>
+            </div>
+            
+            <div class="service-card" onclick="handleServiceClick('shortcuts')">
+                <div class="service-shortcut">⌘K</div>
+                <div class="service-icon">⚡</div>
+                <h3 class="service-title">Atajos de Teclado</h3>
+                <p class="service-description">Trucos & Plantillas</p>
+            </div>
+            
+            <div class="service-card" onclick="handleServiceClick('collaboration')">
+                <div class="service-shortcut">⌘S</div>
+                <div class="service-icon">🤝</div>
+                <h3 class="service-title">Colaboración</h3>
+                <p class="service-description">Aplicar</p>
+            </div>
+        </div>
+        
+        <div class="additional-links">
+            <a href="#blog" class="link-item">
+                <div class="link-icon">📧</div>
+                Blog
+            </a>
+            <a href="#merch" class="link-item">
+                <div class="link-icon">👕</div>
+                Merch
+            </a>
+            <a href="#support" class="link-item">
+                <div class="link-icon">💬</div>
+                Soporte Humano
+            </a>
+        </div>
+        
+        <div class="social-section">
+            <h3 class="social-title">Sígueme para más:</h3>
+            <div class="social-links">
+                <a href="#" class="social-link">
+                    <span>📷</span>
+                    Instagram
+                </a>
+                <a href="#" class="social-link">
+                    <span>🎨</span>
+                    Artstation
+                </a>
+                <a href="#" class="social-link">
+                    <span>📘</span>
+                    Facebook
+                </a>
+            </div>
+        </div>
+        
+        <div class="footer-text">
+            <p>Sitio web en construcción. Próximamente funcionalidad completa.<br>
+            Todos los derechos reservados</p>
+        </div>
+    </div>
+    
+    <div class="keyboard-hint">
+        Presiona ⌘K para abrir comandos
+    </div>
+
+    <script>
+        function handleServiceClick(service) {
+            // URLs de contacto - puedes cambiarlas por tus enlaces reales
+            const contactUrls = {
+                'generate': 'mailto:contact@2birdsonestone.com?subject=Interesado en Clases Particulares',
+                'training': 'mailto:contact@2birdsonestone.com?subject=Interesado en Asesoría 3D',
+                'shortcuts': 'mailto:contact@2birdsonestone.com?subject=Interesado en Atajos y Plantillas',
+                'collaboration': 'mailto:contact@2birdsonestone.com?subject=Interesado en Colaboración'
+            };
+
+            // Abrir enlace de contacto
+            if (contactUrls[service]) {
+                window.open(contactUrls[service], '_blank');
+            }
+        }
+
+        // Atajos de teclado
+        document.addEventListener('keydown', function(e) {
+            if (e.metaKey || e.ctrlKey) {
+                switch(e.key) {
+                    case 'g':
+                        e.preventDefault();
+                        handleServiceClick('generate');
+                        break;
+                    case 'c':
+                        e.preventDefault();
+                        handleServiceClick('training');
+                        break;
+                    case 'k':
+                        e.preventDefault();
+                        handleServiceClick('shortcuts');
+                        break;
+                    case 's':
+                        e.preventDefault();
+                        handleServiceClick('collaboration');
+                        break;
+                }
+            }
+        });
+
+        // Efectos de hover suaves
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Analytics básico (opcional)
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('click', function() {
+                // Aquí puedes agregar Google Analytics o similar
+                console.log('Servicio clickeado:', this.querySelector('.service-title').textContent);
+            });
+        });
+    </script>
+</body>
+</html>
